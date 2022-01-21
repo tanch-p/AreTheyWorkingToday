@@ -1,8 +1,13 @@
+import React, { useContext } from "react";
+import { DataContext } from './Home'
+
 const DisplayEvents = ({ divRect }) => {
     // console.log(divRect);
+    const dataContext = useContext(DataContext);
+    console.log(dataContext);
 
     const arrowStyle ={
-       left: divRect.left+divRect.width*0.44
+       left: divRect?.left+divRect?.width*0.44
     }
 
     return (

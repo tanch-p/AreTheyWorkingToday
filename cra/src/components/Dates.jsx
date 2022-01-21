@@ -35,10 +35,10 @@ const forwardFill = (current, today) => {
 
 
 const Dates = ({ current, today }) => {
-    console.log(current)
+    // console.log(current)
 
     return (
-        <DayDiv dayArr={generateDateDivs(current, today)}/>
+        <DayDiv dayArr={generateDateDivs(current, today)} />
     )
 }
 
