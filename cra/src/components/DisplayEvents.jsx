@@ -3,12 +3,13 @@ import { DataContext } from './Home'
 
 const DisplayEvents = ({ divRect }) => {
     // console.log(divRect);
-    const dataContext = useContext(DataContext);
-    console.log(dataContext);
+    const data = useContext(DataContext);
 
     const arrowStyle ={
        left: divRect?.left+divRect?.width*0.44
     }
+
+    //
 
     return (
         <div className="details in">

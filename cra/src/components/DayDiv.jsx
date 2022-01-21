@@ -1,7 +1,10 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useContext } from 'react';
 import DisplayEvents from './DisplayEvents';
+import { DataContext } from './Home'
 
-function DayDiv({ dayArr }) {
+
+function DayDiv({ dayArr , isToday}) {
+    const data = useContext(DataContext);
     const dayRef = useRef([]);
 
     const [eventsDiv, setEventsDiv] = useState({ display: false, divId: null, endOfWeek: null, divRect: null });
@@ -40,10 +43,11 @@ function DayDiv({ dayArr }) {
                             {current.$D}
                         </div>
                         <div className='day-events'>
-                            <span className='blue'></span>
-                            <span className='yellow'></span>
-                            <span className='orange'></span>
-                            <span className='green'></span>
+                            {data.map((ele, index) => {
+                                if (isToday(current,ele)) {
+                                    return <span className="orange"></span>
+                                }
+                            })}
                         </div>
                     </div>
                     {`${String(current.$M) + String(current.$D)}` === eventsDiv.endOfWeek && eventsDiv.display ? <DisplayEvents divRect={eventsDiv.divRect} /> : null}

@@ -19,7 +19,7 @@ const backFill = (current) => {
 const forwardFill = (current, today) => {
     const returnArr = [];
     do {
-        current.$D === today.$D && current.$M === today.$M ? returnArr.push({current:current, prefix:"today"}) : returnArr.push({current:current, prefix:""});
+        isToday(current,today) ? returnArr.push({current:current, prefix:"today"}) : returnArr.push({current:current, prefix:""});
         current = current.add(1, 'day');
     } while (current.$D !== 1) //stop at 1st of next month
 
@@ -32,13 +32,14 @@ const forwardFill = (current, today) => {
     return returnArr;
 }
 
+const isToday = (current, today) =>  current.$D === today.$D && current.$M === today.$M && current.$y === today.$y ? true : false
 
 
 const Dates = ({ current, today }) => {
     // console.log(current)
 
     return (
-        <DayDiv dayArr={generateDateDivs(current, today)} />
+        <DayDiv dayArr={generateDateDivs(current, today)} isToday={isToday}/>
     )
 }
 
