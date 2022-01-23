@@ -15,7 +15,7 @@ const Calender = () => {
     }
     
     return (
-        <div id="calender">
+        <div className="row-span-3 mx-auto">
             <table>
                 <thead>
                     <tr>
