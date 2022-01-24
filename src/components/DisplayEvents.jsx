@@ -5,10 +5,10 @@ const DisplayEvents = ({ divRect, data, events }) => {
     const [hover, setHover] = useState(false);
     const [tooltip, setTooltip] = useState(null);
 
-    // console.log(divRect);
+    console.log(divRect);
 
     const arrowStyle = {
-        left: divRect?.left + divRect?.width * 0.44
+        left: "90%"
     }
 
     const handleHover = (descript = "") => {

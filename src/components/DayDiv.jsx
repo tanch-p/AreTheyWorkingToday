@@ -32,34 +32,53 @@ function DayDiv({ dayArr, isToday }) {
         setEvents(dayRef.current[index].childNodes[2].childNodes);
     }
 
+    console.log(data); //Array[0].state / Array[0].value
+    console.log(typeof (data[0]));
 
-    const days = dayArr.map(({ current, prefix }, index) => {
-        let holidays = [];
-        for (let i = 0; i < data.length; i++) {
-           holidays = holidays.concat(data[i].map((holidate) => {
-                if (isToday(current, holidate)) {
-                    return (<span key={`${holidate.countryId + holidate.name}`} className={`${holidate.color} square`} data-id={`${holidate.countryId}`} data-name={`${holidate.name}`} data-color={`${holidate.color}`} data-descript={`${holidate.description}`}></span>)
-                }else return undefined;
-            })).filter((ele) => ele!==undefined)
+    let days = "";
+    useEffect(() => {
+        if (data === undefined || data.length === 0) {
+            return <></>
+        } else if (data[0][`<state>`] === "fulfilled") {
+            console.log(data[0][`<value>`]);
+            data = data[0][`<value>`];
+        } else {
+            console.log(data[0][`<value>`]);
+            console.log(data[0].value);
+            return <></>
         }
 
-        return (
-            <>
-                <div className={`day ${prefix}`} id={`${String(current.$M) + String(current.$D)}`} onClick={() => toggleEvents(current, index)} key={`${String(current.$M) + String(current.$D)}`} ref={(el) => dayRef.current[index] = el}>
-                    <div className='day-name'>
-                        {current.format('ddd')}
+
+        days = dayArr.map(({ current, prefix }, index) => {
+            let holidays = [];
+            for (let i = 0; i < data.length; i++) {
+                holidays = holidays.concat(data[i].map((holidate) => {
+                    if (isToday(current, holidate)) {
+                        return (<span key={`${holidate.countryId + holidate.name}`} className={`${holidate.color} square`} data-id={`${holidate.countryId}`} data-name={`${holidate.name}`} data-color={`${holidate.color}`} data-descript={`${holidate.description}`}></span>)
+                    } else return undefined;
+                })).filter((ele) => ele !== undefined)
+            }
+
+            return (
+                <>
+                    <div className={`day ${prefix}`} id={`${String(current.$M) + String(current.$D)}`} onClick={() => toggleEvents(current, index)} key={`${String(current.$M) + String(current.$D)}`} ref={(el) => dayRef.current[index] = el}>
+                        <div className='day-name'>
+                            {current.format('ddd')}
+                        </div>
+                        <div className='day-number'>
+                            {current.$D}
+                        </div>
+                        <div className='day-events'>
+                            {holidays}
+                        </div>
                     </div>
-                    <div className='day-number'>
-                        {current.$D}
-                    </div>
-                    <div className='day-events'>
-                        {holidays}
-                    </div>
-                </div>
-                {`${String(current.$M) + String(current.$D)}` === eventsDiv.endOfWeek && eventsDiv.display ? <DisplayEvents divRect={eventsDiv.divRect} data={data} events={events}/> : null}
-            </>
-        )
-    })
+                    {`${String(current.$M) + String(current.$D)}` === eventsDiv.endOfWeek && eventsDiv.display ? <DisplayEvents divRect={eventsDiv.divRect} data={data} events={events} /> : null}
+                </>
+            )
+        })
+    }, [data])
+
+
 
 
 

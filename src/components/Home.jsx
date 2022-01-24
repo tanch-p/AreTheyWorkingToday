@@ -1,7 +1,7 @@
 import React, { createContext, useState, useEffect } from "react";
 import Calender from "./Calender";
 import CountryForm from "./CountryForm";
-
+import ExtraPage from "./ExtraPage";
 
 // console.log(SG2022_data.response.holidays);
 export const HolidayDataContext = createContext();
@@ -31,6 +31,23 @@ const getHolidays = (selectedList) => {
 	})
 }
 
+const getHolidaysWithAPI = (selectedList,API_KEY) => {
+
+	const makeApiCall = async (color,API_URL) => {
+		// const res = await fetch(API_URL);
+		// const data = await res.json();
+		// console.log(data.response.holidays);
+		// return(parseHolidayData(data.response.holidays,color).filter( (ele) => ele !==undefined))
+		console.log(API_URL);	
+	  };
+	
+	return selectedList.map(({ country, color}) => {
+		const CODE = country.slice(0, 2);
+		const API_URL = `https://calendarific.com/api/v2/holidays?&api_key=${API_KEY}&country=${CODE}&year=2022`;
+		return makeApiCall(color,API_URL);
+	})
+}
+
 const parseCountryData = (data) => {
 	return data.map((countryData, index) => {
 		return `${countryData[`iso-3166`]} ${countryData.country_name}`;
@@ -39,30 +56,20 @@ const parseCountryData = (data) => {
 
 const Home = () => {
 	// console.log(process.env.REACT_APP_CALENDERIFIC_API_KEY);
-	//'https://calendarific.com/api/v2/holidays?&API_KEY&country=CODE&year=2022'
+	// const API_KEY = process.env.REACT_APP_CALENDERIFIC_API_KEY;
+	const API_KEY = "";
+	//'https://calendarific.com/api/v2/holidays?&api_key=API_KEY&country=CODE&year=2022'
 
-	// useEffect(() => {
-
-	//   const makeApiCall = async () => {
-	//     const res = await fetch(url);
-	//     const json = await res.json();
-	//     console.log(json.holidays[0].name);
-	//   };
-
-	//   makeApiCall();
-	// }, []);
 
 
 	const countries = require("../testdata/countries.json");
+	const [countryList, setCountryList] = useState(parseCountryData(countries.response.countries).filter((ele) => ele !== "SG Singapore"));
 
-	const [selectedList, setSelectedList] = useState([{country:"SG Singapore",color:"blue"}]); //{country:"",color:""}
+	const [selectedList, setSelectedList] = useState([{ country: "SG Singapore", color: "blue", originalIndex: 150 }]); //{country:"",color:"",originalIndex:""}
 	const [holidayData, setHolidayData] = useState([]);
 
-	const countriesData = parseCountryData(countries.response.countries);
-	// console.log(countriesData);
-
 	useEffect(() => {
-		setHolidayData(getHolidays(selectedList));
+		setHolidayData(getHolidaysWithAPI(selectedList,API_KEY));
 	}, [selectedList])
 
 	return (
@@ -71,7 +78,8 @@ const Home = () => {
 				<HolidayDataContext.Provider value={holidayData}>
 					<Calender />
 				</HolidayDataContext.Provider>
-				<CountryForm countriesData={countriesData} selectedList={selectedList} setSelectedList={setSelectedList} />
+				<CountryForm countryList={countryList} setCountryList={setCountryList} selectedList={selectedList} setSelectedList={setSelectedList} />
+				<ExtraPage />
 			</div>
 		</div>
 	);

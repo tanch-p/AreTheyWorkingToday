@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
 
-const CountryForm = ({ countriesData, selectedList, setSelectedList }) => {
-	const [countryList, setCountryList] = useState([]);
+const CountryForm = ({ countriesData, countryList, setCountryList, selectedList, setSelectedList }) => {
 	const [input, setInput] = useState("");
 	const [disableAdd, setDisableAdd] = useState(false);
-	const [colors, setColors] = useState(["blue", "orange", "yellow", "green", "red", "indigo", "violet"]);
-	const [selectedListItem, setSelectedListItem] = useState([]);
+	const [colors, setColors] = useState(["orange", "yellow", "green", "red", "indigo", "violet"]); //blue with initial singapore
 	const [hover, setHover] = useState(false);
 
 	const selectColor = () => {
@@ -17,7 +15,7 @@ const CountryForm = ({ countriesData, selectedList, setSelectedList }) => {
 	const handleAdd = () => {
 		let country = countryList.find((country) => country === input);
 		if (country !== undefined) {
-			setSelectedList([...selectedList, { country: country, color: selectColor() }]);
+			setSelectedList([...selectedList, { country: country, color: selectColor(),originalIndex: countryList.indexOf(country) }]);
 			setCountryList(countryList.filter((ele) => ele !== country));
 			setInput("");
 		}
@@ -30,24 +28,15 @@ const CountryForm = ({ countriesData, selectedList, setSelectedList }) => {
 
 	const handleRemove = (event) => {
 		console.log(event.target.dataset.id);
-		setSelectedList(selectedList.filter(({ country, color }) => {
+		setSelectedList(selectedList.filter(({ country, color, originalIndex },) => {
 			if (country === event.target.dataset.id) {
 				setColors(colors => [...colors, color]);
+				setCountryList(countryList => [...countryList.slice(0,originalIndex), event.target.dataset.id, ...countryList.slice(originalIndex)]);
 			}
 			return country !== event.target.dataset.id
 		}));
-		setCountryList([...countryList, event.target.dataset.id]);
+		
 	
-};
-
-const handleListClick = (event, index) => {
-
-	if (event.target.innerText !== "") {
-		setSelectedListItem(selectedListItem.map((ele, i) => {
-			return index === i
-		}))
-	}
-
 };
 
 const handleHover = (str) => {
@@ -61,7 +50,7 @@ const countryOptions = countryList.map((country) => {
 const selectedCountries = selectedList.map(({ country, color }, index) => (
 	<>
 		<div className="grid grid-cols-10 ml-1" onMouseOver={() => handleHover("in")} onMouseOut={() => handleHover("out")} key={country} >
-			<li onClick={(event) => handleListClick(event, index)} className={`${selectedListItem[index] ? "bg-blue-100" : ""} overflow-x-auto col-span-5 no-scrollbar my-0.5 `} >{country}</li>
+			<li className={`overflow-x-auto col-span-5 no-scrollbar my-0.5 `} >{country}</li>
 			<span className={`inline-block w-5 h-5 p-0 m-0 mt-1 ${color} col-span-1`} data-id="index" ></span>
 			<span className="col-span-1"></span>
 			<button className={`col-span-3 w-auto h-11/12 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold text-sm text-center pl-1 rounded ${hover ? "opacity-100" : "opacity-0"}`} onClick={handleRemove} data-id={country}>Remove</button>
@@ -69,20 +58,8 @@ const selectedCountries = selectedList.map(({ country, color }, index) => (
 	</>
 ));
 
-const initialise = () => {
-	setSelectedList([...selectedList, { country: "SG Singapore", color: "blue" }, { country: "JP Japan", color: "red" }, { country: "CN China", color: "orange" }]);
-	setCountryList(countryList => countryList.filter((ele) => ele !== "SG Singapore" || ele !== "JP Japan" || ele !== "CN China"));
-}
-
-//initialise countrylist array on mount
-useEffect(() => {
-	setCountryList(countryList => countriesData.filter((ele) => ele !== "SG Singapore"));
-	// initialise();
-}, []);
-
 useEffect(() => {
 	selectedList.length >= 7 ? setDisableAdd(true) : setDisableAdd(false)
-	setSelectedListItem(selectedList.map((ele, index) => false));
 }, [selectedList]);
 
 return (
@@ -109,7 +86,7 @@ return (
 				<label form="country-selected" className="border-b-2 border-black">Countries selected:</label>
 				<ul>{selectedCountries}</ul>
 			</div>
-			<h2>・Maximum of 8 countries</h2>
+			<h2>・Maximum of 7 countries</h2>
 			{/* <button name="Remove" disabled={disableRemove} onClick={handleRemove} className="border-4 border-gray-400" >
 					Remove
 				</button> */}
