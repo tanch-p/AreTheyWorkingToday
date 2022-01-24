@@ -9,7 +9,7 @@ import { Footer } from "./components/Footer";
 // import API_KEY from ".env"
 
 function App() {
-	console.log(process.env.REACT_APP_CALENDERIFIC_API_KEY);
+	// console.log(process.env.REACT_APP_CALENDERIFIC_API_KEY);
 	//'https://calendarific.com/api/v2/holidays?&API_KEY&country=CODE&year=2022'
 
 	// useEffect(() => {
