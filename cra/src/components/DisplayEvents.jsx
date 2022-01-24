@@ -1,10 +1,11 @@
 import React from "react";
 
-const DisplayEvents = ({ divRect, data, index }) => {
+const DisplayEvents = ({ divRect, data}) => {
 
     // console.log(index);
 
 
+    console.log(divRect);
 
     const arrowStyle = {
         left: divRect?.left + divRect?.width * 0.44
@@ -14,8 +15,8 @@ const DisplayEvents = ({ divRect, data, index }) => {
             <div className="arrow" style={arrowStyle}></div>
             <div className="events in">
                 <div className="event">
-                    {index !== -1 ? <><div className="event-category orange"></div>
-                        <span>{data[index].name}</span></> : <span>No events today</span>}
+                    {true ? <><div className="event-category orange"></div>
+                        <span>{data.name}</span></> : <span>No events today</span>}
 
                 </div>
             </div>

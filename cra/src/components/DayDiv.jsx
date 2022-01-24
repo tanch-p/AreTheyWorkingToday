@@ -1,21 +1,22 @@
 import React, { useRef, useEffect, useState, useContext } from 'react';
 import DisplayEvents from './DisplayEvents';
-import { DataContext } from './Home'
+import { HolidayDataContext } from './Home'
 
 
 function DayDiv({ dayArr, isToday }) {
-    const data = useContext(DataContext);
+    const data = useContext(HolidayDataContext);
+
     const dayRef = useRef([]);
 
     const [eventsDiv, setEventsDiv] = useState({ display: false, divId: null, endOfWeek: null, divRect: null });
-    const [holidayIndex, setHolidayIndex] = useState(-1);
+    const [events, setEvents] = useState(null);
 
 
     useEffect(() => {
         dayRef.current = dayRef.current.slice(0, dayArr.length);
     }, [dayArr]);
 
-    const toggleEvents = (current, index, indexHolder) => {
+    const toggleEvents = (current, index) => {
         // console.log(dayRef.current[index].id)
         let saturday = null;
         if (current.$W != 6) {
@@ -28,23 +29,24 @@ function DayDiv({ dayArr, isToday }) {
             setEventsDiv(eventsDiv => { return { ...eventsDiv, display: true } });
         }
         setEventsDiv(eventsDiv => { return { ...eventsDiv, divId: dayRef.current[index].id, endOfWeek: saturday, divRect: dayRef.current[index].getBoundingClientRect() } });
-
-        indexHolder !== -1 ? setHolidayIndex(indexHolder) : setHolidayIndex(-1)
+        setEvents(dayRef.current[index].childNodes[2].childNodes);
     }
 
 
     const days = dayArr.map(({ current, prefix }, index) => {
         let indexHolder = -1;
-        const holidays = data.map((holidate, i) => {
-            if (isToday(current, holidate)) {
-                indexHolder = i;
-                return <span className="orange square">{holidate.description}</span>
-            }
-        })
+        let holidays = [];
+        for (let i = 0; i < data.length; i++) {
+           holidays = holidays.concat(data[i].map((holidate) => {
+                if (isToday(current, holidate)) {
+                    return (<span key={`${holidate.countryId + holidate.name}`} className={`${holidate.color} square`} data-name={`${holidate.name}`} data-color={`${holidate.color}`} data-descript={`${holidate.description}`}></span>)
+                }
+            })).filter((ele) => ele!=undefined)
+        }
 
         return (
             <>
-                <div className={`day ${prefix}`} id={`${String(current.$M) + String(current.$D)}`} onClick={() => toggleEvents(current, index, indexHolder)} key={`${String(current.$M) + String(current.$D)}`} ref={(el) => dayRef.current[index] = el}>
+                <div className={`day ${prefix}`} id={`${String(current.$M) + String(current.$D)}`} onClick={() => toggleEvents(current, index)} key={`${String(current.$M) + String(current.$D)}`} ref={(el) => dayRef.current[index] = el}>
                     <div className='day-name'>
                         {current.format('ddd')}
                     </div>
@@ -55,7 +57,7 @@ function DayDiv({ dayArr, isToday }) {
                         {holidays}
                     </div>
                 </div>
-                {`${String(current.$M) + String(current.$D)}` === eventsDiv.endOfWeek && eventsDiv.display ? <DisplayEvents divRect={eventsDiv.divRect} data={data} index={holidayIndex} /> : null}
+                {`${String(current.$M) + String(current.$D)}` === eventsDiv.endOfWeek && eventsDiv.display ? <DisplayEvents divRect={eventsDiv.divRect} data={data} events={events}/> : null}
             </>
         )
     })

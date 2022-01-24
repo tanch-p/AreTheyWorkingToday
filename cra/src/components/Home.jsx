@@ -1,26 +1,36 @@
-import React, { createContext } from "react";
+import React, { createContext, useState, useEffect } from "react";
 import Calender from "./Calender";
 import CountryForm from "./CountryForm";
 
-const SG2022_data = require("../testdata/holidays-sg-2022.json");
+const SG2022_data = require("../testdata/holidays-SG-2022.json");
 const countries = require("../testdata/countries.json");
 // console.log(SG2022_data.response.holidays);
-export const DataContext = createContext();
+export const HolidayDataContext = createContext();
 
-const parseData = (data) => {
-	return data.map((holidayData, index) => {
-		if (holidayData.type[0] === "National holiday") {
+const parseHolidayData = (holidayData, color) => {
+	return holidayData.map((data) => {
+		if (data.type[0] === "National holiday") {
 			return {
-				countryId: holidayData.country.id,
-				name: holidayData.name,
-				description: holidayData.description,
-				$D: holidayData.date.datetime.day,
-				$M: holidayData.date.datetime.month - 1,
-				$y: holidayData.date.datetime.year,
+				countryId: data.country.id,
+				name: data.name,
+				description: data.description,
+				$D: data.date.datetime.day,
+				$M: data.date.datetime.month - 1,
+				$y: data.date.datetime.year,
+				color: color
 			};
 		} else return undefined;
 	});
 };
+
+const getHolidays = (selectedList) => {
+	return selectedList.map(({ country, color }) => {
+		let holidayData = require(`../testdata/holidays-${country.slice(0, 2)}-2022.json`)
+		return parseHolidayData(holidayData.response.holidays, color).filter(
+			(ele) => ele !== undefined
+		);
+	})
+}
 
 const parseCountryData = (data) => {
 	return data.map((countryData, index) => {
@@ -29,19 +39,23 @@ const parseCountryData = (data) => {
 };
 
 const Home = () => {
-	const data = parseData(SG2022_data.response.holidays).filter(
-		(ele) => ele !== undefined
-	);
+	const [selectedList, setSelectedList] = useState([]); //{country:"",color:""}
+	const [holidayData, setHolidayData] = useState([]);
+
 	const countriesData = parseCountryData(countries.response.countries);
-	console.log(countriesData);
+	// console.log(countriesData);
+
+	useEffect(() => {
+		setHolidayData(getHolidays(selectedList));
+	}, [selectedList])
 
 	return (
 		<div>
-			<div className="mx-auto grid grid-rows-5">
-				<CountryForm countriesData={countriesData} />
-				<DataContext.Provider value={data}>
+			<div className="mx-auto grid grid-rows-5 pb-10">
+				<CountryForm countriesData={countriesData} selectedList={selectedList} setSelectedList={setSelectedList} />
+				<HolidayDataContext.Provider value={holidayData}>
 					<Calender />
-				</DataContext.Provider>
+				</HolidayDataContext.Provider>
 			</div>
 		</div>
 	);
