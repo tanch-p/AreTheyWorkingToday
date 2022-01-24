@@ -19,7 +19,7 @@ function DayDiv({ dayArr, isToday }) {
     const toggleEvents = (current, index) => {
         // console.log(dayRef.current[index].id)
         let saturday = null;
-        if (current.$W != 6) {
+        if (current.$W !== 6) {
             saturday = `${String(current.add(6 - current.$W % 6, "day").$M) + String(current.add(6 - current.$W % 6, "day").$D)}`;
         } else saturday = `${String(current.$M) + String(current.$D)}`;
 
@@ -34,14 +34,13 @@ function DayDiv({ dayArr, isToday }) {
 
 
     const days = dayArr.map(({ current, prefix }, index) => {
-        let indexHolder = -1;
         let holidays = [];
         for (let i = 0; i < data.length; i++) {
            holidays = holidays.concat(data[i].map((holidate) => {
                 if (isToday(current, holidate)) {
                     return (<span key={`${holidate.countryId + holidate.name}`} className={`${holidate.color} square`} data-id={`${holidate.countryId}`} data-name={`${holidate.name}`} data-color={`${holidate.color}`} data-descript={`${holidate.description}`}></span>)
-                }
-            })).filter((ele) => ele!=undefined)
+                }else return undefined;
+            })).filter((ele) => ele!==undefined)
         }
 
         return (

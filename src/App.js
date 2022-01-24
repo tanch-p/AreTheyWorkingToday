@@ -6,22 +6,7 @@ import About from "./components/About";
 import NotFound from "./components/NotFound";
 import { Footer } from "./components/Footer";
 
-// import API_KEY from ".env"
-
 function App() {
-	// console.log(process.env.REACT_APP_CALENDERIFIC_API_KEY);
-	//'https://calendarific.com/api/v2/holidays?&API_KEY&country=CODE&year=2022'
-
-	// useEffect(() => {
-
-	//   const makeApiCall = async () => {
-	//     const res = await fetch(url);
-	//     const json = await res.json();
-	//     console.log(json.holidays[0].name);
-	//   };
-
-	//   makeApiCall();
-	// }, []);
 
 	return (
 		<div className="App">
@@ -32,7 +17,7 @@ function App() {
 					</span>
 				</div>
 				<div className="w-full block flex-grow lg:flex md:flex lg:items-center md:items-center md:w-auto lg:w-auto">
-					<div className="text-sm lg:flex-grow">
+					<div className="text-base lg:flex-grow">
 						<Link
 							to="/"
 							className="block mt-4 md:inline-block lg:inline-block md:mt-0  lg:mt-0 text-teal-200 hover:text-white mr-4"

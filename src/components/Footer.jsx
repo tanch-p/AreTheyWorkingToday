@@ -10,7 +10,7 @@ export const Footer = () => {
                         focusable="false"
                         data-prefix="fab"
                         data-icon="github"
-                        className="w-3 h-full mx-auto"
+                        className="w-5 h-full mx-auto"
                         role="img"
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 496 512"

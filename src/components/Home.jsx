@@ -38,9 +38,24 @@ const parseCountryData = (data) => {
 };
 
 const Home = () => {
+	// console.log(process.env.REACT_APP_CALENDERIFIC_API_KEY);
+	//'https://calendarific.com/api/v2/holidays?&API_KEY&country=CODE&year=2022'
+
+	// useEffect(() => {
+
+	//   const makeApiCall = async () => {
+	//     const res = await fetch(url);
+	//     const json = await res.json();
+	//     console.log(json.holidays[0].name);
+	//   };
+
+	//   makeApiCall();
+	// }, []);
+
+
 	const countries = require("../testdata/countries.json");
 
-	const [selectedList, setSelectedList] = useState([]); //{country:"",color:""}
+	const [selectedList, setSelectedList] = useState([{country:"SG Singapore",color:"blue"}]); //{country:"",color:""}
 	const [holidayData, setHolidayData] = useState([]);
 
 	const countriesData = parseCountryData(countries.response.countries);
@@ -52,11 +67,11 @@ const Home = () => {
 
 	return (
 		<div>
-			<div className="mx-auto grid grid-rows-5 pb-10">
-				<CountryForm countriesData={countriesData} selectedList={selectedList} setSelectedList={setSelectedList} />
+			<div className="home-container pb-10">
 				<HolidayDataContext.Provider value={holidayData}>
 					<Calender />
 				</HolidayDataContext.Provider>
+				<CountryForm countriesData={countriesData} selectedList={selectedList} setSelectedList={setSelectedList} />
 			</div>
 		</div>
 	);

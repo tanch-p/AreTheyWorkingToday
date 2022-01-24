@@ -43,8 +43,8 @@ const DisplayEvents = ({ divRect, data, events }) => {
         <>
             <div className="details in">
                 <div className="arrow" style={arrowStyle}></div>
-                <div className="events in">
-                    <div className="event">
+                <div className="events in no-scrollbar">
+                    <div className="event no-scrollbar">
                         {eventSpan}
                     </div>
                 </div>
