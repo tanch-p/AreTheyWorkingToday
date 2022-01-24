@@ -2,8 +2,7 @@ import React, { createContext, useState, useEffect } from "react";
 import Calender from "./Calender";
 import CountryForm from "./CountryForm";
 
-const SG2022_data = require("../testdata/holidays-SG-2022.json");
-const countries = require("../testdata/countries.json");
+
 // console.log(SG2022_data.response.holidays);
 export const HolidayDataContext = createContext();
 
@@ -39,6 +38,8 @@ const parseCountryData = (data) => {
 };
 
 const Home = () => {
+	const countries = require("../testdata/countries.json");
+
 	const [selectedList, setSelectedList] = useState([]); //{country:"",color:""}
 	const [holidayData, setHolidayData] = useState([]);
 
