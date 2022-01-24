@@ -39,7 +39,7 @@ function DayDiv({ dayArr, isToday }) {
         for (let i = 0; i < data.length; i++) {
            holidays = holidays.concat(data[i].map((holidate) => {
                 if (isToday(current, holidate)) {
-                    return (<span key={`${holidate.countryId + holidate.name}`} className={`${holidate.color} square`} data-name={`${holidate.name}`} data-color={`${holidate.color}`} data-descript={`${holidate.description}`}></span>)
+                    return (<span key={`${holidate.countryId + holidate.name}`} className={`${holidate.color} square`} data-id={`${holidate.countryId}`} data-name={`${holidate.name}`} data-color={`${holidate.color}`} data-descript={`${holidate.description}`}></span>)
                 }
             })).filter((ele) => ele!=undefined)
         }

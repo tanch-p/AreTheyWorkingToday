@@ -150,7 +150,7 @@ td{
 .details {
   position: relative;
   width: 420px;
-  height: 75px;
+  overflow-y:auto;
   background: rgba(164, 164, 164, 1);
   margin-top: 5px;
   border-radius: 4px;
