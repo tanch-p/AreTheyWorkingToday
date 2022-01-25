@@ -1,7 +1,4 @@
-import React from 'react';
+let x = require("../testdata/wiki-api-result.json");
+let y = Object.keys(x.query.pages)[0];
 
-const SelectedList = () => {
-  return <div></div>;
-};
-
-export default SelectedList;
+console.log(y);
