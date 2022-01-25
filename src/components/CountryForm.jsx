@@ -50,7 +50,7 @@ const countryOptions = countryList.map((country) => {
 const selectedCountries = selectedList.map(({ country, color }, index) => (
 	<>
 		<div className="grid grid-cols-10 ml-1" onMouseOver={() => handleHover("in")} onMouseOut={() => handleHover("out")} key={country} >
-			<li className={`overflow-x-auto col-span-5 no-scrollbar my-0.5 `} >{country}</li>
+			<li className={`overflow-x-auto overflow-y-hidden col-span-5 no-scrollbar my-0.5 `} >{country}</li>
 			<span className={`inline-block w-5 h-5 p-0 m-0 mt-1 ${color} col-span-1`} data-id="index" ></span>
 			<span className="col-span-1"></span>
 			<button className={`col-span-3 w-auto h-11/12 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold text-sm text-center pl-1 rounded ${hover ? "opacity-100" : "opacity-0"}`} onClick={handleRemove} data-id={country}>Remove</button>
@@ -78,7 +78,7 @@ return (
 					value={input}
 				/>
 				<datalist id="country-list">{countryOptions}</datalist>
-				<button name="Add" disabled={disableAdd} onClick={handleAdd} className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 ml-3 rounded" >
+				<button name="Add" disabled={disableAdd} onClick={handleAdd} className={`${disableAdd ? "bg-gray-300 text-gray-500 cursor-not-allowed" :"bg-gray-300 hover:bg-gray-400"} text-gray-800 font-bold py-2 px-4 ml-3 rounded`} >
 					Add
 				</button>
 			</div>
@@ -87,9 +87,6 @@ return (
 				<ul>{selectedCountries}</ul>
 			</div>
 			<h2>・Maximum of 7 countries</h2>
-			{/* <button name="Remove" disabled={disableRemove} onClick={handleRemove} className="border-4 border-gray-400" >
-					Remove
-				</button> */}
 		</div>
 	</>
 );

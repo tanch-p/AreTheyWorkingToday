@@ -1,3 +1,4 @@
+import { findByPlaceholderText } from "@testing-library/react";
 import React, { createContext, useState, useEffect } from "react";
 import Calender from "./Calender";
 import CountryForm from "./CountryForm";
@@ -31,20 +32,19 @@ const getHolidays = (selectedList) => {
 	})
 }
 
-const getHolidaysWithAPI = (selectedList,API_KEY) => {
+const getHolidaysWithAPI = (selectedList, API_KEY) => {
 
-	const makeApiCall = async (color,API_URL) => {
-		// const res = await fetch(API_URL);
-		// const data = await res.json();
-		// console.log(data.response.holidays);
-		// return(parseHolidayData(data.response.holidays,color).filter( (ele) => ele !==undefined))
-		console.log(API_URL);	
-	  };
-	
-	return selectedList.map(({ country, color}) => {
+	const makeApiCall = async (color, API_URL) => {
+		const res = await fetch(API_URL);
+		const data = await res.json();
+		console.log(data.response.holidays);
+		return (parseHolidayData(data.response.holidays, color).filter((ele) => ele !== undefined))
+	};
+
+	return selectedList.map(({ country, color }) => {
 		const CODE = country.slice(0, 2);
 		const API_URL = `https://calendarific.com/api/v2/holidays?&api_key=${API_KEY}&country=${CODE}&year=2022`;
-		return makeApiCall(color,API_URL);
+		return makeApiCall(color, API_URL);
 	})
 }
 
@@ -56,8 +56,8 @@ const parseCountryData = (data) => {
 
 const Home = () => {
 	// console.log(process.env.REACT_APP_CALENDERIFIC_API_KEY);
-	// const API_KEY = process.env.REACT_APP_CALENDERIFIC_API_KEY;
-	const API_KEY = "";
+	const API_KEY = process.env.REACT_APP_CALENDERIFIC_API_KEY;
+	// const API_KEY = "";
 	//'https://calendarific.com/api/v2/holidays?&api_key=API_KEY&country=CODE&year=2022'
 
 
@@ -69,7 +69,19 @@ const Home = () => {
 	const [holidayData, setHolidayData] = useState([]);
 
 	useEffect(() => {
-		setHolidayData(getHolidaysWithAPI(selectedList,API_KEY));
+		// const list = [];
+		// for (const ele of selectedList) {
+		// 	let found = false;
+		// 	for (const holidate of holidayData) {
+		// 		if (holidate?.countryId === ele.country.slice(0, 2)) {
+		// 			found = true;
+		// 			break;
+		// 		}
+		// 	}
+		// 	!found ? list.push(ele) : null;
+		// }
+
+		setHolidayData(getHolidaysWithAPI(selectedList, API_KEY));
 	}, [selectedList])
 
 	return (

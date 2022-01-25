@@ -130,10 +130,12 @@ td{
 
 
 .day .day-events {
-  list-style: none;
   margin-top: 3px;
   text-align: center;
-  height: 12px;
+  margin-left: auto;
+  margin-right:auto;
+  width :30px;
+  height:12px;
   line-height: 6px;
   overflow: hidden;
   overflow-anchor: none;
