@@ -1,100 +1,75 @@
 import React, { useState, useEffect } from "react";
+// import ReactCSSTransitionGroup from 'react-transition-group';
 
-const DisplayEvents = ({ divRect, data, events }) => {
-    const [eventSpan, setEventSpan] = useState(null);
-    const [hover, setHover] = useState(false);
-    const [tooltip, setTooltip] = useState(null);
-
+const DisplayEvents = ({ divRect, data, events, }) => {
+    const [eventsDiv, setEventsDiv] = useState(null);
+    const [links, setLinks] = useState([]);
     // console.log(divRect);
 
     const arrowStyle = {
         left: "90%"
     }
 
-    const handleHover = (descript = "") => {
-        if (descript !== "") {
-            setHover(true);
-            setTooltip(descript);
-            console.log(descript);
-        }
-        else {
-            console.log("out");
-            setHover(false)
-        }
-    }
+    const getHolidayQuery = (name) => {
 
-    const getHolidayQuery = (descript, name) => {
-
-        let isDay = false;
-        let isDayOff = false;
-        let dayIndex = 0;
-
-        const keywords = [{ keyword: "Spring Festival", query: "Spring Festival" }, { keyword: "Golden Week", query: "Golden Week" }, { keyword: "Chinese Lunar New Year's Day", query: "Chinese New Year" }];
+        const keywords = [{ keyword: "Spring Festival", query: "Spring Festival" }, { keyword: "Golden Week", query: "Golden Week" }, { keyword: "Chinese Lunar New Year's Day", query: "Chinese New Year" }, { keyword: "Good Friday", query: "Good Friday" }, { keyword: "Day off for", query: name.split(" ").slice(3).join(" ") },{keyword: "Sea Day",query: "Marine Day"}];
         for (const { keyword, query } of keywords) {
             if (name.includes(keyword)) {
                 return query;
             }
         }
 
-        let words = descript.split(" ");
-        for (let i = 0; i < 7 && i < words.length; i++) {
-            if (words[i] === "Day") {
-                if (i !== 1 && i <= 5) {
-                    dayIndex = i;
-                    isDay = true;
-                    break;
-                } else if (i === 1) {
-                    isDayOff = true;
-                }
-            } else continue;
-        }
-        if (isDay) {
-            return isDayOff ? words.slice(3, dayIndex + 1).join(" ") : words.slice(0, dayIndex + 1).join(" ")
-        } else {
-            if (name.includes("/")) {
-                return name.split("/")[0].trim();
-            }
-        }
+        if (name.includes("/")) {
+            return name.split("/")[0].trim();
+        } else return name;
     }
 
-    const getWikiUrl = (query) => {
-
+    const getWikiUrl = (query, i) => {
+        console.log(query);
         const makeApiCall = async (API_URL) => {
             const res = await fetch(API_URL);
             const data = await res.json();
-            return (Object.keys(data.query.pages)[0]);
+            const pageId = Object.keys(data.query.pages)[0];
+            console.log("pageId", pageId);
+            // console.log(API_URL);
+            return (
+                <>
+                    <div className={`event-category ${events[i].dataset.color}`} key={events[i].dataset.name + "cat"}></div>
+
+                    {pageId !== -1 ? <span className="text-blue-600 underline" key={events[i].dataset.name + "span"}><a href={`https://en.wikipedia.org/?curid=${pageId}`} target="_blank" rel="noreferrer noopener"> {events[i].dataset.id.toUpperCase() + ": " + events[i].dataset.name}  </a></span> : <span key={events[i].dataset.name + "span"}>{events[i].dataset.id.toUpperCase() + ": " + events[i].dataset.name}</span>}
+                </>
+            )
         };
 
-        const url = `https://en.wikipedia.org/w/api.php?action=query&prop=categories&format=json&titles=${query}`
+        const url = `https://en.wikipedia.org/w/api.php?action=query&prop=categories&format=json&titles=${query}&origin=*`
         return makeApiCall(url);
     }
 
-
     useEffect(() => {
+        setLinks([]);
         if (events.length !== 0) {
-            const returnArr = [];
-            for (let i = 0; i < events.length; i++) {
 
-                let pageId = null; 
+            for (let i = 0; i < events.length; i++) {
                 try {
-                    pageId = getWikiUrl(getHolidayQuery(events[i].dataset.descript, events[i].dataset.name));
+                    let pagePromise = getWikiUrl(getHolidayQuery(events[i].dataset.name), i);
+                    // console.log("pageIdPromise", pagePromise);
+                    pagePromise.then(value => {
+                        setLinks(links => [...links, ...value.props.children]);
+                    });
                 } catch (e) {
                     console.log(e);
                 }
-
-                pageId !== null || pageId !== -1 ? console.log(pageId) : console.log("????");
-
-                returnArr.push(
-                    <>
-                        <div className={`event-category ${events[i].dataset.color}`} key={events[i].dataset.id + "cat"}></div>
-                        <span className="hover:text-blue-600 hover:underline" onMouseOver={() => handleHover(events[i].dataset.descript)} onMouseOut={() => handleHover("")} key={events[i].dataset.id + "span"}>{events[i].dataset.id.toUpperCase() + ": " + events[i].dataset.name}</span>
-                    </>)
             }
-            setEventSpan(returnArr);
-
-        } else setEventSpan(<span>No events today</span>)
+        } else setEventsDiv(<span>No events today</span>)
     }, [events]);
 
+    useEffect(() => {
+        let returnArr = [];
+        for (const link of links) {
+            returnArr.push(link);
+        }
+        setEventsDiv(returnArr)
+    }, [links])
 
     return (
         <>
@@ -102,12 +77,11 @@ const DisplayEvents = ({ divRect, data, events }) => {
                 <div className="arrow" style={arrowStyle}></div>
                 <div className="events in no-scrollbar">
                     <div className="event no-scrollbar">
-                        {eventSpan}
+                        {eventsDiv}
                     </div>
                 </div>
 
             </div>
-            {hover ? <div className={`absolute left-500 top-500`}>{tooltip}</div> : null}
         </>
     )
 };
