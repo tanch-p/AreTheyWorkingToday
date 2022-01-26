@@ -12,7 +12,7 @@ const DisplayEvents = ({ divRect, data, events, }) => {
 
     const getHolidayQuery = (name) => {
 
-        const keywords = [{ keyword: "Spring Festival", query: "Spring Festival" }, { keyword: "Golden Week", query: "Golden Week" }, { keyword: "Chinese Lunar New Year's Day", query: "Chinese New Year" }, { keyword: "Good Friday", query: "Good Friday" }, { keyword: "Day off for", query: name.split(" ").slice(3).join(" ") },{keyword: "Sea Day",query: "Marine Day"}];
+        const keywords = [{ keyword: "Spring Festival", query: "Spring Festival" }, { keyword: "Golden Week", query: "Golden Week" }, { keyword: "Chinese Lunar New Year's Day", query: "Chinese New Year" }, { keyword: "Good Friday", query: "Good Friday" }, { keyword: "Day off for", query: name.split(" ").slice(3).join(" ") }, { keyword: "Sea Day", query: "Marine Day" }];
         for (const { keyword, query } of keywords) {
             if (name.includes(keyword)) {
                 return query;
@@ -60,7 +60,7 @@ const DisplayEvents = ({ divRect, data, events, }) => {
                     console.log(e);
                 }
             }
-        } else setEventsDiv(<span>No events today</span>)
+        }
     }, [events]);
 
     useEffect(() => {
@@ -68,7 +68,7 @@ const DisplayEvents = ({ divRect, data, events, }) => {
         for (const link of links) {
             returnArr.push(link);
         }
-        setEventsDiv(returnArr)
+        returnArr.length !== 0 ? setEventsDiv(returnArr) : setEventsDiv(<span>No events today</span>) 
     }, [links])
 
     return (
