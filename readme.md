@@ -18,7 +18,7 @@ _Calender to help you keep track of whether your international friends/colleague
 
 #### Introduction:
 
-[Overall view](https://i.imgur.com/t7rSzP7.png)
+![Overall view](https://i.imgur.com/t7rSzP7.png)
 
 Users are able to search or select countries from input box with dropdown list (datalist), and add it to the list of selected countries.
 
@@ -30,8 +30,6 @@ Users can click on the days to open up an extended view to see the name of the h
 
 #### Components:
 
-[Snapview with Components](https://i.imgur.com/QbZP3GW.jpg)
+![Snapview with Components](https://i.imgur.com/QbZP3GW.jpg)
 
-[Components overview](https://i.imgur.com/n4Zp566.jpg)
-
-
+![Components overview](https://i.imgur.com/n4Zp566.jpg)
