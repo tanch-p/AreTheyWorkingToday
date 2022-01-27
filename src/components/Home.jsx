@@ -1,4 +1,3 @@
-import { findByPlaceholderText } from "@testing-library/react";
 import React, { createContext, useState, useEffect } from "react";
 import Calender from "./Calender";
 import CountryForm from "./CountryForm";
