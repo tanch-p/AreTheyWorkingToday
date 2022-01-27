@@ -8,7 +8,7 @@ _Calender to help you keep track of whether your international friends/colleague
 
 ###### Libraries used:
 
-• [Dayjs]((https://github.com/iamkun/dayjs/))
+• [Dayjs](https://github.com/iamkun/dayjs/)
 
 #### Index
 
@@ -16,11 +16,9 @@ _Calender to help you keep track of whether your international friends/colleague
 
 * Components
 
-
-
 #### Introduction:
 
-![snapview.png](C:\Users\tanch\Desktop\snapview.png)
+[Overall view](https://i.imgur.com/t7rSzP7.png)
 
 Users are able to search or select countries from input box with dropdown list (datalist), and add it to the list of selected countries.
 
@@ -30,14 +28,10 @@ The calender will take in the list of selected countries, pull the holidays from
 
 Users can click on the days to open up an extended view to see the name of the holiday, and also are able to click on the holiday to get more details about it through a external link to wikipedia.
 
-
-
 #### Components:
 
-![snapview.jpg](C:\Users\tanch\Desktop\snapview.jpg)
+[Snapview with Components](https://i.imgur.com/QbZP3GW.jpg)
 
-
-
-![components.jpg](C:\Users\tanch\Desktop\components.jpg)
+[Components overview](https://i.imgur.com/n4Zp566.jpg)
 
 
