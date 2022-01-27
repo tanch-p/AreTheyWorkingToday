@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-const CountryForm = ({ countriesData, countryList, setCountryList, selectedList, setSelectedList }) => {
+const CountryForm = ({ countryList, setCountryList, selectedList, setSelectedList }) => {
 	const [input, setInput] = useState("");
 	const [disableAdd, setDisableAdd] = useState(false);
 	const [colors, setColors] = useState(["orange", "yellow", "green", "red", "indigo", "violet"]); //blue with initial singapore

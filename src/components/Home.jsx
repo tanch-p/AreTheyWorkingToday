@@ -64,7 +64,9 @@ const Home = () => {
 	const countries = require("../testdata/countries.json");
 	const [countryList, setCountryList] = useState(parseCountryData(countries.response.countries).filter((ele) => ele !== "SG Singapore"));
 
-	const [selectedList, setSelectedList] = useState([{ country: "SG Singapore", color: "blue", originalIndex: 150 }]); //{country:"",color:"",originalIndex:""}
+	// !SelectedList {country:"",color:"",originalIndex:""}
+	const [selectedList, setSelectedList] = useState([{ country: "SG Singapore", color: "blue", originalIndex: 150 }]); 
+	
 	const [holidayData, setHolidayData] = useState([]);
 
 	useEffect(() => {

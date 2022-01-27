@@ -6,11 +6,11 @@ import { HolidayDataContext } from './Home'
 function DayDiv({ dayArr, isToday }) {
     const data = useContext(HolidayDataContext);
 
-    const dayRef = useRef([]);
-
     const [eventsDiv, setEventsDiv] = useState({ display: false, divId: null, endOfWeek: null, divRect: null });
     const [events, setEvents] = useState(null);
     const [holidaysArr, setHolidaysArr] = useState([]);
+
+    const dayRef = useRef([]);
 
     useEffect(() => {
         dayRef.current = dayRef.current.slice(0, dayArr.length);
@@ -75,7 +75,7 @@ function DayDiv({ dayArr, isToday }) {
                         {holidays.length !== 0 ? holidays : null}
                     </div>
                 </div>
-                {`${String(current.$M) + String(current.$D)}` === eventsDiv.endOfWeek && eventsDiv.display ? <DisplayEvents divRect={eventsDiv.divRect} data={data} events={events} /> : null}
+                {`${String(current.$M) + String(current.$D)}` === eventsDiv.endOfWeek && eventsDiv.display ? <DisplayEvents divRect={eventsDiv.divRect} events={events} /> : null}
             </>
         )
     })

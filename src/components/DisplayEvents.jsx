@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 // import ReactCSSTransitionGroup from 'react-transition-group';
 
-const DisplayEvents = ({ divRect, data, events, }) => {
-    const [eventsDiv, setEventsDiv] = useState(null);
+const DisplayEvents = ({ divRect, events, }) => {
+    const [expandedDiv, setExpandedDiv] = useState(null);
     const [links, setLinks] = useState([]);
     // console.log(divRect);
 
@@ -68,7 +68,7 @@ const DisplayEvents = ({ divRect, data, events, }) => {
         for (const link of links) {
             returnArr.push(link);
         }
-        returnArr.length !== 0 ? setEventsDiv(returnArr) : setEventsDiv(<span>No events today</span>) 
+        returnArr.length !== 0 ? setExpandedDiv(returnArr) : setExpandedDiv(<span>No events today</span>) 
     }, [links])
 
     return (
@@ -77,7 +77,7 @@ const DisplayEvents = ({ divRect, data, events, }) => {
                 <div className="arrow" style={arrowStyle}></div>
                 <div className="events in no-scrollbar">
                     <div className="event no-scrollbar">
-                        {eventsDiv}
+                        {expandedDiv}
                     </div>
                 </div>
 
