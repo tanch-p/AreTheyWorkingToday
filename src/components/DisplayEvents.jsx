@@ -12,7 +12,7 @@ const DisplayEvents = ({ divRect, events, }) => {
 
     const getHolidayQuery = (name) => {
 
-        const keywords = [{ keyword: "Spring Festival", query: "Spring Festival" }, { keyword: "Golden Week", query: "Golden Week" }, { keyword: "Chinese Lunar New Year's Day", query: "Chinese New Year" }, { keyword: "Good Friday", query: "Good Friday" }, { keyword: "Day off for", query: name.split(" ").slice(3).join(" ") }, { keyword: "Sea Day", query: "Marine Day" }];
+        const keywords = [{ keyword: "Spring Festival", query: "Spring Festival" }, { keyword: "Golden Week", query: "Golden Week" }, { keyword: "Chinese Lunar New Year's Day", query: "Chinese New Year" }, { keyword: "Good Friday", query: "Good Friday" }, { keyword: "Day off for", query: name.split(" ").slice(3).join(" ") }, { keyword: "Sea Day", query: "Marine Day" }, {keyword: "Robert E. Lee's Birthday", query: "Robert E. Lee Day"}];
         for (const { keyword, query } of keywords) {
             if (name.includes(keyword)) {
                 return query;
@@ -34,9 +34,9 @@ const DisplayEvents = ({ divRect, events, }) => {
             // console.log(API_URL);
             return (
                 <>
-                    <div className={`event-category ${events[i].dataset.color}`} key={events[i].dataset.name + "cat"}></div>
+                    <div className={`event-category ${events[i].dataset.color}`} key={events[i].dataset.name + events[i].dataset.id +"cat"}></div>
 
-                    {pageId !== -1 ? <span className="text-blue-600 underline" key={events[i].dataset.name + "span"}><a href={`https://en.wikipedia.org/?curid=${pageId}`} target="_blank" rel="noreferrer noopener"> {events[i].dataset.id.toUpperCase() + ": " + events[i].dataset.name}  </a></span> : <span key={events[i].dataset.name + "span"}>{events[i].dataset.id.toUpperCase() + ": " + events[i].dataset.name}</span>}
+                    {pageId !== "-1" ? <span className="text-blue-600 underline" key={events[i].dataset.name + events[i].dataset.id}><a href={`https://en.wikipedia.org/?curid=${pageId}`} target="_blank" rel="noreferrer noopener"> {events[i].dataset.id.toUpperCase() + ": " + events[i].dataset.name}  </a></span> : <span key={events[i].dataset.name + "span"}>{events[i].dataset.id.toUpperCase() + ": " + events[i].dataset.name}</span>}
                 </>
             )
         };

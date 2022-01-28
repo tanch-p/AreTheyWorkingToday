@@ -8,7 +8,7 @@ export const HolidayDataContext = createContext();
 
 const parseHolidayData = (holidayData, color) => {
 	return holidayData.map((data) => {
-		if (data.type[0] === "National holiday") {
+		if (data.type[0] === "National holiday" || (data.type[0] === "Local holiday" && (data.locations === "All"))) {
 			return {
 				countryId: data.country.id,
 				name: data.name,
