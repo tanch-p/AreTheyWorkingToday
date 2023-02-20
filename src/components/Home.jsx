@@ -6,6 +6,9 @@ import ExtraPage from "./ExtraPage";
 // console.log(SG2022_data.response.holidays);
 export const HolidayDataContext = createContext();
 
+const today = new Date();
+const year = today.getUTCFullYear();
+
 const parseHolidayData = (holidayData, color) => {
 	return holidayData.map((data) => {
 		if (data.type[0] === "National holiday" || (data.type[0] === "Local holiday" && (data.locations === "All"))) {
@@ -42,7 +45,7 @@ const getHolidaysWithAPI = (selectedList, API_KEY) => {
 
 	return selectedList.map(({ country, color }) => {
 		const CODE = country.slice(0, 2);
-		const API_URL = `https://calendarific.com/api/v2/holidays?&api_key=${API_KEY}&country=${CODE}&year=2022`;
+		const API_URL = `https://calendarific.com/api/v2/holidays?&api_key=${API_KEY}&country=${CODE}&year=${year}`;
 		return makeApiCall(color, API_URL);
 	})
 }
